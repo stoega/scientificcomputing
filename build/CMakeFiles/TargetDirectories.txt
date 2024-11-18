@@ -1,0 +1,4 @@
+/home/ubuntu/SciComp/scientificcomputing/build/CMakeFiles/A2.dir
+/home/ubuntu/SciComp/scientificcomputing/build/CMakeFiles/A3.dir
+/home/ubuntu/SciComp/scientificcomputing/build/CMakeFiles/edit_cache.dir
+/home/ubuntu/SciComp/scientificcomputing/build/CMakeFiles/rebuild_cache.dir

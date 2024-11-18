@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/A12.dir/testing.cpp.o -o A12 

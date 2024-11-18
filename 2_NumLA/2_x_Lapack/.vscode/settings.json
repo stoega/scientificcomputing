@@ -1,0 +1,12 @@
+{
+    "cmake.configureSettings": {
+        "USE_MKL": "off",
+        "MKL_INCLUDE_DIR_pip_macos": "/Library/Frameworks/Python.framework/Versions/3.10/include",
+        "MKL_INCLUDE_DIR_pip_windows": "C:/Program\  Files/python310/Library/include",
+        "MKL_INCLUDE_DIR_oneapi_windows": "C:/Program\  Files\  (x86)/Intel/oneAPI/mkl/2023.0.0/include",
+        "MKL_LIBRARY_DIR_pip_macos": "/Library/Frameworks/Python.framework/Versions/3.10/lib",
+        "MKL_LIBRARY_DIR_pip_windows": "C:/Program\  Files/python310/Library/lib",
+        "MKL_LIBRARY_DIR_oneapi_windows": "C:/Program\  Files\  (x86)/Intel/oneAPI/mkl/2023.0.0/lib/intel64"
+
+    }
+}
