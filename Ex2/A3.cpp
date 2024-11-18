@@ -122,7 +122,7 @@ int main()
     tmp.SetAll(0);
 
     // Dämpfungsfaktor
-    double theta = h * h / (2 * k);
+    double theta = h * h / (2.0 * k);
 
     int i = 0;
     while (i < numIter && r.Norm() > 1e-6)
