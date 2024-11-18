@@ -8,7 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/ubuntu/SciComp/scientificcomputing/HUE/Ex2/A2.cpp" "CMakeFiles/A2.dir/A2.cpp.o" "gcc" "CMakeFiles/A2.dir/A2.cpp.o.d"
+  "/home/ubuntu/SciComp/scientificcomputing/Ex2/A2.cpp" "CMakeFiles/A2.dir/A2.cpp.o" "gcc" "CMakeFiles/A2.dir/A2.cpp.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

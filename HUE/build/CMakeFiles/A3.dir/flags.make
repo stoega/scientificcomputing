@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/g++
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/ubuntu/SciComp/scientificcomputing/HUE/Ex2/include
+CXX_INCLUDES = -I/home/ubuntu/SciComp/scientificcomputing/Ex2/include
 
 CXX_FLAGS = -g -std=gnu++20
 
