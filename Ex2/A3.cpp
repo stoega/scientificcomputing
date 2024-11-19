@@ -82,7 +82,7 @@ int main()
     int b_ = 2;
     int numIter = 20000;
 
-    double h = 1 / double(n - 1);
+    double h = 1 / double(n + 1);
 
     SC::Vector<double> x_i = linspace(n);
     // x_i.Print(std::cout);
@@ -118,8 +118,8 @@ int main()
     r.SetAll(1);
 
     // Vektor für Zwischenergebnisse
-    SC::Vector<double> tmp(n);
-    tmp.SetAll(0);
+    // SC::Vector<double> tmp(n);
+    // tmp.SetAll(0);
 
     // Dämpfungsfaktor
     double theta = h * h / (2.0 * k);
@@ -135,8 +135,8 @@ int main()
         r.Add(b);
 
         // Gl. 9
-        tmp = r;
-        tmp.Mult(theta);
+        // tmp = r;
+        // tmp.Mult(theta);
         // u += tmp;
         u.AddMultiple(theta, r);
         i++;
