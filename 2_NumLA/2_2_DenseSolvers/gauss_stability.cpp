@@ -90,5 +90,8 @@ int main()
     cout << "relative error: random matrix, simple Gauss: " << error_random.Norm()/b.Norm() << endl;
     cout << "relative error: random matrix, pivoting:     " << error_random_piv.Norm()/b.Norm() << endl;
 
+    // cout << "Matrix A " << A << endl;
+    // cout << "Inv A " << invA.GetInverse() << endl;
+
 
 }

@@ -1,5 +1,5 @@
 {
-    "cmake.sourceDirectory": "/home/ubuntu/SciComp/scientificcomputing/Ex2",
+    "cmake.sourceDirectory": "/home/Shrek/Uni/24W/Wissenschaftliches_Rechnen/Ex3",
     "files.associations": {
         "*.tikz": "latex",
         "*.tex": "latex",
@@ -70,6 +70,16 @@
         "thread": "cpp",
         "cinttypes": "cpp",
         "typeinfo": "cpp",
-        "variant": "cpp"
-    }
+        "variant": "cpp",
+        "forward_list": "cpp",
+        "text_encoding": "cpp",
+        "valarray": "cpp",
+        "any": "cpp",
+        "bitset": "cpp",
+        "codecvt": "cpp",
+        "source_location": "cpp",
+        "future": "cpp",
+        "stdfloat": "cpp"
+    },
+    "C_Cpp.errorSquiggles": "enabled"
 }

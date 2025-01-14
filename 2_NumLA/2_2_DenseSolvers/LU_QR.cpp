@@ -41,6 +41,7 @@ int main()
     d -= b;
     cout << "relative error residual, LU " << d.Norm()/b.Norm() << endl << endl;
 
+    cout << "factorization: " << invA_LU << endl;
 
     QRSolver<> invA_QR(A);
     Vector <> cQR, dQR;
@@ -55,5 +56,8 @@ int main()
     // cout << "QR factorization " << invA_QR << endl;
     dQR -= b;
     cout << "relative error residual, QR " << dQR.Norm()/b.Norm() << endl;
+
+    cout << "factorization: " << invA_QR << endl;
+
 
 }

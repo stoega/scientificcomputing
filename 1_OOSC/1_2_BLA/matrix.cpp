@@ -15,10 +15,12 @@ typedef complex<double> COMPLEX;    // write COMPLEX instead of complex<double>
 
 int main()
 {
-
+    // LinearOperator<> B;
     // call constructor/destructor in debug mode
     {
-        Matrix<double> A;
+        Matrix<double> A(3,2);
+        Matrix<double> B;
+        B = A;
     }
 
     // a simple example
@@ -35,13 +37,29 @@ int main()
     cout << "M = " << M << endl;
 
     M.Apply(a, b);
+    cout << "b = M.a\nb = " << b << endl;
     M.ApplyH(b, a);
     
-    cout << "b = M.a\nb = " << b << endl;
+    cout << "a = M^H.b\na = " << a << endl;
 
+    // test virtual/non-virtual inheritance -- what happens, if virtual/override keywords are removed in matrix class?
+    {
+        // operator<< declaration:
+        // ostream& operator<<(ostream& os, const LinearOperator<T>& m);
+        // M is passed as LinearOperator<T>
+        cout << M << endl;
+        // M is a Matrix<COMPLEX>
+        // at compile-time, refM is treated as LinearOperator<COMPLEX>
+        // at run-time, refM will be a Matrix<COMPLEX>, but the compiler does not know
+        LinearOperator<COMPLEX>& refM(M);
+        refM.Print(cout);
+    }
+
+    // transpose a matrix
     Matrix<COMPLEX> N(M);
     N.Transpose();
     cout << "\ntransposed matrix " << N << endl;
+
 
     return 0;
 }

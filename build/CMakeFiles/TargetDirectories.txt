@@ -1,4 +1,6 @@
-/home/ubuntu/SciComp/scientificcomputing/build/CMakeFiles/A2.dir
-/home/ubuntu/SciComp/scientificcomputing/build/CMakeFiles/A3.dir
-/home/ubuntu/SciComp/scientificcomputing/build/CMakeFiles/edit_cache.dir
-/home/ubuntu/SciComp/scientificcomputing/build/CMakeFiles/rebuild_cache.dir
+/home/Shrek/Uni/24W/Wissenschaftliches_Rechnen/build/CMakeFiles/TridiagLUSolverTest.dir
+/home/Shrek/Uni/24W/Wissenschaftliches_Rechnen/build/CMakeFiles/TridiagGSSolverTest.dir
+/home/Shrek/Uni/24W/Wissenschaftliches_Rechnen/build/CMakeFiles/ApplicationExample.dir
+/home/Shrek/Uni/24W/Wissenschaftliches_Rechnen/build/CMakeFiles/ApplicationExampleTiming.dir
+/home/Shrek/Uni/24W/Wissenschaftliches_Rechnen/build/CMakeFiles/edit_cache.dir
+/home/Shrek/Uni/24W/Wissenschaftliches_Rechnen/build/CMakeFiles/rebuild_cache.dir

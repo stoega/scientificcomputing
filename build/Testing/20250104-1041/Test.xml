@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Site BuildName="(empty)"
+	BuildStamp="20250104-1041-Experimental"
+	Name="(empty)"
+	Generator="ctest-3.31.3"
+	CompilerName=""
+	CompilerVersion=""
+	OSName="Linux"
+	Hostname="SwampTop"
+	OSRelease="6.12.7-arch1-1"
+	OSVersion="#1 SMP PREEMPT_DYNAMIC Fri, 27 Dec 2024 14:24:37 +0000"
+	OSPlatform="x86_64"
+	Is64Bits="1"
+	VendorString="GenuineIntel"
+	VendorID="Intel Corporation"
+	FamilyID="6"
+	ModelID="170"
+	ModelName="Intel(R) Core(TM) Ultra 9 185H"
+	ProcessorCacheSize="24576"
+	NumberOfLogicalCPU="22"
+	NumberOfPhysicalCPU="16"
+	TotalVirtualMemory="16383"
+	TotalPhysicalMemory="31515"
+	LogicalProcessorsPerPhysical="1"
+	ProcessorClockFrequency="1962.24"
+	>
+	<Testing>
+		<StartDateTime>Jan 04 11:41 CET</StartDateTime>
+		<StartTestTime>1735987289</StartTestTime>
+		<TestList/>
+		<EndDateTime>Jan 04 11:41 CET</EndDateTime>
+		<EndTestTime>1735987289</EndTestTime>
+		<ElapsedMinutes>0</ElapsedMinutes>
+	</Testing>
+</Site>

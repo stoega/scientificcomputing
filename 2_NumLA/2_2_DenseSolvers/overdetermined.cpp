@@ -13,8 +13,8 @@ int main()
 {
     // polynomial regression
 
-    int n_points = 4;
-    int order_poly = 3;
+    int n_points = 5;
+    int order_poly = 1;
     Matrix<double> B(n_points, order_poly+1);
     Vector<double> x_vals(n_points);
     Vector<double> y_vals(n_points);
@@ -23,7 +23,8 @@ int main()
     x_vals(0) = 0.; y_vals(0) = 2;
     x_vals(1) = 1.; y_vals(1) = 2;
     x_vals(2) = 2.; y_vals(2) = 6;
-    x_vals(3) = 3.; y_vals(3) = 2;
+    x_vals(3) = 3.; y_vals(3) = 7;
+    x_vals(4) = 5.1; y_vals(4) = 7;
 
     for (int i=0; i<n_points; i++)
     {

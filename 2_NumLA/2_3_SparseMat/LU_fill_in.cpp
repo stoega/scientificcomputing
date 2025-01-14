@@ -35,6 +35,8 @@ int main()
     GaussSolver<double> ainv(a);
     cout << "ainv = " << ainv.GetInverse() << endl;
 
+    cin.get();
+
     cout << "--- computing LU factorization --- \nLU factors are tridiag: " << endl;
     LUSolver<double> a_LU(a);
     cout << a_LU << endl;
@@ -42,15 +44,20 @@ int main()
     a_LU.PrintPattern(cout);
     cout << endl;
 
-    cout << "--- setting additional entries in matrix a ---" << endl;
-    // a(5,1) = -0.44;
-    // a(0,7) = -0.11;
-    // a(8,3) = -0.66;
+    cin.get();
 
-    for (int i=1; i<10; i++) a(i,9) = -0.2;
+    cout << "--- setting additional entries in matrix a ---" << endl;
+    a(5,1) = -0.044;
+    a(0,7) = -0.011;
+    a(8,3) = -0.066;
+
+    // for (int i=1; i<10; i++) a(i,9) = -0.2;
     LUSolver<double> a_LU2(a);
 
+
+
     cout << "a = " << a << endl;
+    cin.get();
     cout << "fill-in in LU factorization " <<  endl;
     a_LU2.PrintPattern(cout);
     cout << endl;

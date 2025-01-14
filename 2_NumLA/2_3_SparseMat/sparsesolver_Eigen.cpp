@@ -14,7 +14,7 @@ using namespace std;
 
 int main()
 {
-    int n_x = 1000;
+    int n_x = 100;
     int n_vec = n_x*(n_x);
     double meshsize = 1./(n_x+1);
     double k_coeff = 1.;
@@ -42,7 +42,8 @@ int main()
 
     Eigen::Matrix<double, Eigen::Dynamic, 1> b(n_vec), u(n_vec);
     b.setConstant(q_coeff);
-
+    cout << "system size " << n_vec << endl;
+    cout << "setup completed, factorization..." << endl;
     auto begin_sparse = std::chrono::high_resolution_clock::now();
 
     Eigen::SparseLU<Eigen::SparseMatrix<double, Eigen::RowMajor>> Ainv;

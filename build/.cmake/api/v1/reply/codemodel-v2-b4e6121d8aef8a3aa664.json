@@ -1,0 +1,87 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"jsonFile" : "directory-.-Release-f5ebdc15457944623624.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.10"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3
+					]
+				}
+			],
+			"name" : "Release",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "Ex3",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "ApplicationExample::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ApplicationExample-Release-77c319c3d10373c9b0a5.json",
+					"name" : "ApplicationExample",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "ApplicationExampleTiming::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ApplicationExampleTiming-Release-166745cd5a69f6763214.json",
+					"name" : "ApplicationExampleTiming",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "TridiagGSSolverTest::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-TridiagGSSolverTest-Release-7d420cc6c020871a3845.json",
+					"name" : "TridiagGSSolverTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "TridiagLUSolverTest::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-TridiagLUSolverTest-Release-7b10929bb471daeccce2.json",
+					"name" : "TridiagLUSolverTest",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/home/Shrek/Uni/24W/Wissenschaftliches_Rechnen/build",
+		"source" : "/home/Shrek/Uni/24W/Wissenschaftliches_Rechnen/Ex3"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 7
+	}
+}

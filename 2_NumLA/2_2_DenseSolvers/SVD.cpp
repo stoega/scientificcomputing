@@ -80,7 +80,7 @@ void SVD_overdetermined(){
     // polynomial regression, number of points = 5, polynomial order 2
 
     int n_points = 5;
-    int order_poly = 2;
+    int order_poly = 1;
     Matrix<> A(n_points, order_poly+1, TMatrixStorage::COL_MAJOR);
     Vector<double> x_vals(n_points);
     Vector<double> y_vals(n_points);
@@ -163,7 +163,7 @@ void SVD_underdetermined(){
 int main()
 {
     squareSVD();
-    squareSVD_singular();
+    // squareSVD_singular();
     SVD_overdetermined();
-    SVD_underdetermined();
+    // SVD_underdetermined();
 }

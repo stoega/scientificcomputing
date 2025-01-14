@@ -43,13 +43,17 @@ int main()
     cout << "Using simple Gauss solver, sec                 " << elapsed_1.count()/1e9 << endl;
 
 
-    // Test 1 - simple Gauss solver, repeated solve
+    // Test 2 - Gauss solver with pivoting, repeated solve
     auto begin_2 = std::chrono::high_resolution_clock::now();
 
     GaussSolver<> invA(A);
 
     for (int i=0; i<n_solve; i++)
+    {
+        // GaussSolver<> invA(A);
+
         invA.Apply(b, c2);
+    }
 
     auto end_2 = std::chrono::high_resolution_clock::now();
     auto elapsed_2 = std::chrono::duration_cast<std::chrono::nanoseconds>(end_2 - begin_2);

@@ -6,6 +6,8 @@
 #include <SCvector.h>
 #include <SCmatrix.h>
 
+#include <Eigen/Dense>
+
 #ifdef USE_MKL
 #define __HAVE_LAPACK__
 #include <mkl.h>
