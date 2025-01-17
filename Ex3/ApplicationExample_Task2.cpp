@@ -4,6 +4,7 @@
 #include "SCTridiagSparseMatrix.h"
 #include "SCGaussSeidelSolver.h"
 #include "SCTridiagLUSolver.h"
+#include "SCCGSolver.h"
 #include "SCvector.h"
 #include <iostream>
 #include <fstream>
@@ -25,7 +26,7 @@ double timeLUSolver(TridiagSparseMatrix<double> &A, Vector<double> &rhs, Vector<
 
 double timeGSSolver(TridiagSparseMatrix<double> &A, Vector<double> &rhs, Vector<double> &solution)
 {
-    TridiagLUSolver<double> gsSolver(A);
+    TridiagGaussSeidelSolver<double> gsSolver(A);
 
     // https://en.cppreference.com/w/cpp/chrono/high_resolution_clock/now
     auto start = std::chrono::high_resolution_clock::now();
@@ -35,24 +36,37 @@ double timeGSSolver(TridiagSparseMatrix<double> &A, Vector<double> &rhs, Vector<
     return std::chrono::duration<double>(end - start).count();
 }
 
+double timeCGSolver(TridiagSparseMatrix<double> &A, Vector<double> &rhs, Vector<double> &solution)
+{
+    CGSolver<double> cgSolver(A);
+
+    // https://en.cppreference.com/w/cpp/chrono/high_resolution_clock/now
+    auto start = std::chrono::high_resolution_clock::now();
+    cgSolver.Apply(rhs, solution);
+    auto end = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> diff = end - start;
+    return std::chrono::duration<double>(end - start).count();
+}
+
 int main()
 {
     // Problem parameters
     const double k = 10.0; // Diffusion coefficient
-    const double b = 50.0; // Convection coefficient
+    const double b = 0; // Convection coefficient
 
     // Starting size
     int n = 100;
-    const int maxSize = 838860799;  // Adjust based on your system
-    const double timeLimit = 180.0; // 3 minutes in seconds
+    const int maxSize = 838860799; // Max Value before int overflow
+    const double timeLimit = 120.0; // 2 minutes as time limit
 
     // Timing variables
     double luTime = 0.0;
     double gsTime = 0.0;
+    double cgTime = 0.0;
 
     // Open output file for plotting data
     std::ofstream outFile("Timing_Data.csv");
-    outFile << "N,LU_Time,GS_Time\n";
+    outFile << "N,LU_Time,GS_Time,CG_Time\n";
 
     // Reusable vectors declared outside the loop
     Vector<double> *solution = nullptr;
@@ -76,13 +90,6 @@ int main()
 
         // Create tridiagonal matrix
         TridiagSparseMatrix<double> A(n);
-        // Vector<double> U(n);
-        // Vector<double> D(n);
-        // Vector<double> L(n);
-
-        // U.SetAll(upperEntry);
-        // D.SetAll(diagEntry);
-        // L.SetAll(lowerEntry);
 
         // Fill the tridiagonal matrix according to equations
 #pragma omp parallel for
@@ -90,65 +97,69 @@ int main()
         {
             // Diagonal elements
             A.Set(i, i, diagEntry);
-            // D(i) = 2.0 * k / (h * h) + b / h;
 
             // Subdiagonal elements (left)
             if (i > 0)
             {
                 A.Set(i, i - 1, lowerEntry);
-                // L(i) = -k / (h * h) - b / h;
             }
 
             // Superdiagonal elements (right)
             if (i < n - 1)
             {
                 A.Set(i, i + 1, upperEntry);
-                // U(i) = -k / (h * h);
             }
         }
-        // TridiagSparseMatrix<double> A(n, D, L, U);
 
-        // Create right-hand side vector b
-        // Vector<double> *rhs = new Vector<double>(n);
+        // Fill rhs vector
         rhs->SetAll(0.0);
         for (int i = n / 2; i < n; ++i)
         { // f(x) = 1 for x >= 0.5
             (*rhs)(i) = 1.0;
         }
 
-        // Definition of solvers
-        // TridiagGaussSeidelSolver<double> gsSolver(A);
-
-        // Creating solution vector
-        // Vector<double> *solution = new Vector<double>(n);
-        solution->SetAll(0.0);
-
-        luTime = timeLUSolver(A, *rhs, *solution);
-
-        solution->SetAll(0.0);
-        // start = std::chrono::high_resolution_clock::now();
-        // gsSolver.Apply(rhs, solution);
-        // end = std::chrono::high_resolution_clock::now();
-        // gsTime = std::chrono::duration<double>(end - start).count();
-        gsTime = timeGSSolver(A, *rhs, *solution);
-
-        // Write to file
-        outFile << n << " " << luTime << " " << gsTime << "\n";
-        outFile.flush(); // Ensure data is written in case of crash
-
-        // Print progress
+        // Time solvers and write to out file
         std::cout << "N = " << n << ":\n";
-        std::cout << "  LU time: " << luTime << "s\n";
-        std::cout << "  GS time: " << gsTime << "s\n\n";
+        outFile << n << ',';
+        if (luTime < timeLimit)
+        {
+            solution->SetAll(0.0);
+            luTime = timeLUSolver(A, *rhs, *solution);
+            outFile << luTime;
+            std::cout << "\tLU time: " << luTime << "s\n";
 
-        // Check time limit
-        if (luTime > timeLimit || gsTime > timeLimit)
+        }
+        outFile << ',';
+
+        if (gsTime < timeLimit)
+        {
+            solution->SetAll(0.0);
+            gsTime = timeGSSolver(A, *rhs, *solution);
+            outFile << gsTime;
+            std::cout << "\tGS time: " << gsTime << "s\n";
+        }
+        outFile << ',';
+
+        if (cgTime < timeLimit)
+        {
+            solution->SetAll(0.0);
+            cgTime = timeCGSolver(A, *rhs, *solution);
+            outFile << cgTime;
+            std::cout << "\tCG time: " << cgTime << "s\n\n";
+
+        }
+        outFile << "\n";
+        outFile.flush();
+
+        // If every solver is above time limit -> break out of while
+        if (luTime > timeLimit && gsTime > timeLimit && cgTime > timeLimit)
+        {
             break;
+        }
 
-        // Increase size (LU solver: multiply by 10, GS solver: multiply by 2)
-        // n *= (luTime > gsTime) ? 2 : 10;
         n *= 2;
     }
+
     delete rhs;
     delete solution;
     outFile.close();
