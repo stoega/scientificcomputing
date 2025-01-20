@@ -97,7 +97,7 @@ int main()
         }
 
         // Solve the system Ax = b using TridiagLUSolver
-        TridiagGaussSeidelSolver<double> solver(A);
+        TridiagGaussSeidelSolver<double> solver(A, 1e6, 1e-9);
         Vector<double> solution(n);
         solution.SetAll(0.0);
 

@@ -26,7 +26,7 @@ double timeLUSolver(TridiagSparseMatrix<double> &A, Vector<double> &rhs, Vector<
 
 double timeGSSolver(TridiagSparseMatrix<double> &A, Vector<double> &rhs, Vector<double> &solution)
 {
-    TridiagGaussSeidelSolver<double> gsSolver(A);
+    TridiagGaussSeidelSolver<double> gsSolver(A, 1e6, 1e-9);
 
     // https://en.cppreference.com/w/cpp/chrono/high_resolution_clock/now
     auto start = std::chrono::high_resolution_clock::now();
@@ -56,7 +56,7 @@ int main()
 
     // Starting size
     int n = 100;
-    const int maxSize = 838860799; // Max Value before int overflow
+    const int maxSize = 838860800; // Max Value before int overflow
     const double timeLimit = 120.0; // 2 minutes as time limit
 
     // Timing variables
@@ -72,7 +72,7 @@ int main()
     Vector<double> *solution = nullptr;
     Vector<double> *rhs = nullptr;
 
-    while (n <= maxSize)
+    while (n < maxSize)
     {
         delete solution;
         delete rhs;
