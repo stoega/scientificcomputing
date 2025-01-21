@@ -26,7 +26,7 @@ double timeLUSolver(TridiagSparseMatrix<double> &A, Vector<double> &rhs, Vector<
 
 double timeGSSolver(TridiagSparseMatrix<double> &A, Vector<double> &rhs, Vector<double> &solution)
 {
-    TridiagGaussSeidelSolver<double> gsSolver(A, 1e6, 1e-9);
+    TridiagGaussSeidelSolver<double> gsSolver(A, 1e9, 1e-6);
 
     // https://en.cppreference.com/w/cpp/chrono/high_resolution_clock/now
     auto start = std::chrono::high_resolution_clock::now();

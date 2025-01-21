@@ -1,9 +1,9 @@
 # ninja log v6
-1	1522	1737302926617943097	CMakeFiles/ApplicationExampleTiming.dir/ApplicationExample_Task2.cpp.o	c8da5e3772aacf26
-1522	1592	1737302928137937876	ApplicationExampleTiming	5d9d1060d3ccc3fc
+1	2042	1737360836618997750	CMakeFiles/ApplicationExampleTiming.dir/ApplicationExample_Task2.cpp.o	c8da5e3772aacf26
+2042	2125	1737360838662472955	ApplicationExampleTiming	5d9d1060d3ccc3fc
 1	447	1736008110972555108	CMakeFiles/A1.dir/A1.cpp.o	34d27f5b9c1c84a
 1	441	1736011156937038962	CMakeFiles/A2.dir/A1.cpp.o	6deaa83457246f89
-3	1052	1737302316425704792	CMakeFiles/ApplicationExample.dir/ApplicationExample_Task1.cpp.o	46d753813333c3bc
+2	1063	1737360790069000348	CMakeFiles/ApplicationExample.dir/ApplicationExample_Task1.cpp.o	46d753813333c3bc
 944	1035	1736089172043127374	A2	842fef21240d78a4
 2	944	1736089171099793801	CMakeFiles/A2.dir/A2.cpp.o	4ac4a167ad15e869
 2	1158	1736090431583840311	CMakeFiles/ApplicationExample.dir/ApplicationExample.cpp.o	47f52fe3fadc0bbe
@@ -12,10 +12,10 @@
 1044	1122	1737302317465704454	TridiagGSSolverTest	5242cbb5a90bf04f
 931	1020	1737302317355704489	TridiagLUSolverTest	591f160e2c4f4b5c
 2	931	1737302316425704792	CMakeFiles/TridiagLUSolverTest.dir/TridiagLUSolverTest.cpp.o	8f916da1f4de4252
-1052	1125	1737302317475704451	ApplicationExample	baefd181667a66e8
-2	1391	1737360758446470015	CMakeFiles/ApplicationExample.dir/ApplicationExample_Task1.cpp.o	46d753813333c3bc
-1392	1480	1737360759836590570	ApplicationExample	baefd181667a66e8
-2	1063	1737360790069000348	CMakeFiles/ApplicationExample.dir/ApplicationExample_Task1.cpp.o	46d753813333c3bc
 1063	1161	1737360791129079641	ApplicationExample	baefd181667a66e8
-1	2042	1737360836618997750	CMakeFiles/ApplicationExampleTiming.dir/ApplicationExample_Task2.cpp.o	c8da5e3772aacf26
-2042	2125	1737360838662472955	ApplicationExampleTiming	5d9d1060d3ccc3fc
+2	1284	1737448217564995050	CMakeFiles/ApplicationExampleTiming.dir/ApplicationExample_Task2.cpp.o	c8da5e3772aacf26
+1284	1337	1737448218845013046	ApplicationExampleTiming	5d9d1060d3ccc3fc
+5	866	1737448940220422725	CMakeFiles/ApplicationExample.dir/ApplicationExample_Task1.cpp.o	46d753813333c3bc
+866	926	1737448941080394353	ApplicationExample	baefd181667a66e8
+6	1403	1737448940220422725	CMakeFiles/ApplicationExampleTiming.dir/ApplicationExample_Task2.cpp.o	c8da5e3772aacf26
+1403	1447	1737448941617043347	ApplicationExampleTiming	5d9d1060d3ccc3fc
