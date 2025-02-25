@@ -1,26 +1,8 @@
 [
 {
   "directory": "/home/Shrek/Uni/24W/Wissenschaftliches_Rechnen/build",
-  "command": "/usr/bin/clang++ -I/home/Shrek/Uni/24W/Wissenschaftliches_Rechnen/Ex3/include -O3 -DNDEBUG -std=gnu++20 -o CMakeFiles/TridiagLUSolverTest.dir/TridiagLUSolverTest.cpp.o -c /home/Shrek/Uni/24W/Wissenschaftliches_Rechnen/Ex3/TridiagLUSolverTest.cpp",
-  "file": "/home/Shrek/Uni/24W/Wissenschaftliches_Rechnen/Ex3/TridiagLUSolverTest.cpp",
-  "output": "CMakeFiles/TridiagLUSolverTest.dir/TridiagLUSolverTest.cpp.o"
-},
-{
-  "directory": "/home/Shrek/Uni/24W/Wissenschaftliches_Rechnen/build",
-  "command": "/usr/bin/clang++ -I/home/Shrek/Uni/24W/Wissenschaftliches_Rechnen/Ex3/include -O3 -DNDEBUG -std=gnu++20 -o CMakeFiles/TridiagGSSolverTest.dir/TridiagGSSolverTest.cpp.o -c /home/Shrek/Uni/24W/Wissenschaftliches_Rechnen/Ex3/TridiagGSSolverTest.cpp",
-  "file": "/home/Shrek/Uni/24W/Wissenschaftliches_Rechnen/Ex3/TridiagGSSolverTest.cpp",
-  "output": "CMakeFiles/TridiagGSSolverTest.dir/TridiagGSSolverTest.cpp.o"
-},
-{
-  "directory": "/home/Shrek/Uni/24W/Wissenschaftliches_Rechnen/build",
-  "command": "/usr/bin/clang++ -I/home/Shrek/Uni/24W/Wissenschaftliches_Rechnen/Ex3/include -O3 -DNDEBUG -std=gnu++20 -o CMakeFiles/ApplicationExample.dir/ApplicationExample_Task1.cpp.o -c /home/Shrek/Uni/24W/Wissenschaftliches_Rechnen/Ex3/ApplicationExample_Task1.cpp",
-  "file": "/home/Shrek/Uni/24W/Wissenschaftliches_Rechnen/Ex3/ApplicationExample_Task1.cpp",
-  "output": "CMakeFiles/ApplicationExample.dir/ApplicationExample_Task1.cpp.o"
-},
-{
-  "directory": "/home/Shrek/Uni/24W/Wissenschaftliches_Rechnen/build",
-  "command": "/usr/bin/clang++ -I/home/Shrek/Uni/24W/Wissenschaftliches_Rechnen/Ex3/include -O3 -DNDEBUG -std=gnu++20 -o CMakeFiles/ApplicationExampleTiming.dir/ApplicationExample_Task2.cpp.o -c /home/Shrek/Uni/24W/Wissenschaftliches_Rechnen/Ex3/ApplicationExample_Task2.cpp",
-  "file": "/home/Shrek/Uni/24W/Wissenschaftliches_Rechnen/Ex3/ApplicationExample_Task2.cpp",
-  "output": "CMakeFiles/ApplicationExampleTiming.dir/ApplicationExample_Task2.cpp.o"
+  "command": "/usr/bin/clang++ -I/home/Shrek/Uni/24W/Wissenschaftliches_Rechnen/Ex4/include -g -std=gnu++20 -o CMakeFiles/Aufgabe1.dir/Aufgabe1.cpp.o -c /home/Shrek/Uni/24W/Wissenschaftliches_Rechnen/Ex4/Aufgabe1.cpp",
+  "file": "/home/Shrek/Uni/24W/Wissenschaftliches_Rechnen/Ex4/Aufgabe1.cpp",
+  "output": "CMakeFiles/Aufgabe1.dir/Aufgabe1.cpp.o"
 }
 ]

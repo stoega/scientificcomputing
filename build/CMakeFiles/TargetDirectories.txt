@@ -1,6 +1,3 @@
-/home/Shrek/Uni/24W/Wissenschaftliches_Rechnen/build/CMakeFiles/TridiagLUSolverTest.dir
-/home/Shrek/Uni/24W/Wissenschaftliches_Rechnen/build/CMakeFiles/TridiagGSSolverTest.dir
-/home/Shrek/Uni/24W/Wissenschaftliches_Rechnen/build/CMakeFiles/ApplicationExample.dir
-/home/Shrek/Uni/24W/Wissenschaftliches_Rechnen/build/CMakeFiles/ApplicationExampleTiming.dir
+/home/Shrek/Uni/24W/Wissenschaftliches_Rechnen/build/CMakeFiles/Aufgabe1.dir
 /home/Shrek/Uni/24W/Wissenschaftliches_Rechnen/build/CMakeFiles/edit_cache.dir
 /home/Shrek/Uni/24W/Wissenschaftliches_Rechnen/build/CMakeFiles/rebuild_cache.dir
