@@ -1,7 +1,7 @@
 [
 {
   "directory": "/home/Shrek/Uni/24W/Wissenschaftliches_Rechnen/build",
-  "command": "/usr/bin/clang++ -I/home/Shrek/Uni/24W/Wissenschaftliches_Rechnen/Ex4/include -g -std=gnu++20 -o CMakeFiles/Aufgabe1.dir/Aufgabe1.cpp.o -c /home/Shrek/Uni/24W/Wissenschaftliches_Rechnen/Ex4/Aufgabe1.cpp",
+  "command": "/usr/bin/clang++ -I/home/Shrek/Uni/24W/Wissenschaftliches_Rechnen/Ex4/include -O3 -DNDEBUG -std=gnu++20 -o CMakeFiles/Aufgabe1.dir/Aufgabe1.cpp.o -c /home/Shrek/Uni/24W/Wissenschaftliches_Rechnen/Ex4/Aufgabe1.cpp",
   "file": "/home/Shrek/Uni/24W/Wissenschaftliches_Rechnen/Ex4/Aufgabe1.cpp",
   "output": "CMakeFiles/Aufgabe1.dir/Aufgabe1.cpp.o"
 }

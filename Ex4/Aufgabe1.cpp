@@ -11,18 +11,35 @@ using namespace SC;
 
 // Normalize a vector (divide by its Euclidean norm)
 template <typename T>
+/**
+ * @param v Vector to be normalized in place
+ */
 void normalize(SC::Vector<T> &v)
 {
-    T norm = 0.0;
-    // for (const auto& val : v) {
-    //     norm += val * val;
-    // }
-    norm = v.Norm();
-
+    T norm = v.Norm();
     v.Mult(1 / norm);
 }
 
-void ComputeInverseIteration(const TridiagSparseMatrix<double> &K, const TridiagSparseMatrix<double> &M, const Vector<double> &u, double mu, Vector<double> &eigenVec, double &eigenValue, double tol = 1e-9, int maxIter = 1000)
+/**
+ * Compute the eigenvector and value using the inverse iteration with shift.
+ *
+ * @param[in] K Tridiagonal sparse matrix
+ * @param[in] M Tridiagonal sparse matrix
+ * @param[in] u Starting value of v
+ * @param[in] mu Shift of eigenvalue
+ * @param[out] eigenVec Approximated eigenvector
+ * @param[out] eigenValue Approximated eigenvalue
+ * @param[in] tol (Optional) Specifies the tolerance for the residual criteria
+ * @param[in] maxIter (Optional) Specifies the maximum allowed iterations
+ */
+void ComputeInverseIteration(const TridiagSparseMatrix<double> &K,
+                             const TridiagSparseMatrix<double> &M,
+                             const Vector<double> &u,
+                             double mu,
+                             Vector<double> &eigenVec,
+                             double &eigenValue,
+                             double tol = 1e-9,
+                             int maxIter = 1000)
 {
     int n = K.Height();
     TridiagSparseMatrix<double> Kshifted(n);
@@ -67,7 +84,9 @@ void ComputeInverseIteration(const TridiagSparseMatrix<double> &K, const Tridiag
     Vector<double> Kv(n);
     Vector<double> Mv(n);
 
+#ifndef NDEBUG
     std::cout << "Starting inverse iteration with shift = " << mu << std::endl;
+#endif
     for (int iter = 0; iter < maxIter; iter++)
     {
         // (3.32) left
@@ -92,23 +111,78 @@ void ComputeInverseIteration(const TridiagSparseMatrix<double> &K, const Tridiag
 
         if (r.Norm() <= tol)
         {
+#ifndef NDEBUG
             std::cout << "Converged after " << iter + 1 << " iterations." << std::endl;
+#endif
             break;
         }
 
         // (3.32) right
         v = z;
 
+#ifndef NDEBUG
         // Print every 10 iterations
         if (iter % 10 == 0)
         {
             std::cout << "Iteration " << iter
-                      << ", eigenvalue = " << lambda
+                      << ", eigenvalue = " << lambda + mu
                       << ", residual = " << r.Norm() << std::endl;
         }
+#endif
     }
-    eigenValue = lambda;
+    // lamda = eigenvalue - shift
+    eigenValue = lambda + mu;
     eigenVec = z;
+}
+
+template <typename T>
+/**
+ * Fills a matrix of type SC::TridiagSparseMatrix with proviede diagonal and offdiagonal values
+ * @param[out] A Matrix to be filled
+ * @param[in] diagonalValue Values on the diagonal
+ * @param[in] offdiagonalValue Values of the offdiagonal
+ */
+void FillTridiagSparseMatrix(TridiagSparseMatrix<T> &A, T diagonalValue, T offdiagonalValue)
+{
+    size_t n = A.Height();
+    for (int i = 0; i < n; ++i)
+    {
+        // Diagonal elements
+        A.Set(i, i, diagonalValue);
+
+        // Subdiagonal elements (left)
+        if (i > 0)
+        {
+            A.Set(i, i - 1, offdiagonalValue);
+        }
+
+        // Superdiagonal elements (right)
+        if (i < n - 1)
+        {
+            A.Set(i, i + 1, offdiagonalValue);
+        }
+    }
+}
+
+/**
+* Writes a vector to a .csv file
+*
+* @param modeNr Number of eigenmode
+* @param vec The vector to write
+* @param h Mesh fineness of vector
+*/
+void WriteModeToCSV(int modeNr, Vector<double> &vec, double h)
+{
+    std::string fullFileName = "Ex4_A1_w" + std::to_string(modeNr) + ".csv";
+    size_t n = vec.Size();
+    std::ofstream out(fullFileName);
+    out << "x,u" << std::endl;
+    for (int i = 0; i < n; ++i)
+    {
+        double x = (i + 1) * h;
+        out << x << "," << vec(i) << std::endl;
+    }
+    out.close();
 }
 
 int main()
@@ -124,31 +198,22 @@ int main()
 
     const double h = L / ne; // mesh fineness
 
+    // Values of eigenproblem
+    Vector<double> eigenVector(n);
+    double eigenValue = 0.0;
+    double omega = 0.0;
+    double analyticalOmega = 0.0;
+    double error = 0.0;
+
     // Create tridiagonal matrix
+    // Create and fill the tridiagonal matrices according to equation (5) and (6)
     TridiagSparseMatrix<double> K(n);
+    K.Print(std::cout);
+    FillTridiagSparseMatrix(K, 2.0 * pow(c, 2) / h, -pow(c, 2) / h);
+    K.Print(std::cout);
+
     TridiagSparseMatrix<double> M(n);
-
-    // Fill the tridiagonal matrices according to equation (5) and (6)
-    for (int i = 0; i < n; ++i)
-    {
-        // Diagonal elements
-        K.Set(i, i, 2.0 * pow(c, 2) / h);
-        M.Set(i, i, 4.0 * h / 6.0);
-
-        // Subdiagonal elements (left)
-        if (i > 0)
-        {
-            K.Set(i, i - 1, -pow(c, 2) / h);
-            M.Set(i, i - 1, h / 6.0);
-        }
-
-        // Superdiagonal elements (right)
-        if (i < n - 1)
-        {
-            K.Set(i, i + 1, -pow(c, 2) / h);
-            M.Set(i, i + 1, h / 6.0);
-        }
-    }
+    FillTridiagSparseMatrix(M, 4.0 * h / 6.0, h / 6.0);
 
     // Create solution vector u for given mesh
     Vector<double> u(n);
@@ -162,94 +227,65 @@ int main()
     /*
      *   Aufgabe 1
      */
-    Vector<double> eigenVector1(n);
-    double eigenValue1;
-    ComputeInverseIteration(K, M, u, 0, eigenVector1, eigenValue1);
+    std::cout << "----- Aufgabe 1: omega_1, n = 100 -----" << std::endl;
 
-    double omega1 = std::sqrt(eigenValue1);
-    double analyticalOmega1 = c * M_PI / L;
-    double error1 = std::abs(omega1 - analyticalOmega1) / analyticalOmega1 * 100.0;
+    ComputeInverseIteration(K, M, u, 0, eigenVector, eigenValue);
 
-    std::cout << "First eigenfrequency: " << omega1 << " rad/s" << std::endl;
-    std::cout << "Analytical value: " << analyticalOmega1 << " rad/s" << std::endl;
-    std::cout << "Relative error: " << error1 << "%" << std::endl;
+    omega = std::sqrt(eigenValue);
+    analyticalOmega = c * M_PI / L;
+    error = std::abs(omega - analyticalOmega) / analyticalOmega * 100.0;
+
+    std::cout << "Target eigenfrequency: " << omega << " rad/s" << std::endl;
+    std::cout << "Analytical value: " << analyticalOmega << " rad/s" << std::endl;
+    std::cout << "Relative error: " << error << "%" << std::endl;
     std::cout << std::endl;
 
-    // Save eigenmode to file
-    std::ofstream out1("eigenmode1.csv");
-    out1 << "x,u" << std::endl;
-    for (int i = 0; i < n; ++i)
-    {
-        double x = (i + 1) * h;
-        out1 << x << "," << eigenVector1(i) << std::endl;
-    }
-    out1.close();
+    WriteModeToCSV(1, eigenVector, h);
 
     /*
      *   Aufgabe 2 - omega10
      *   Fazit for Alex: approximation is pretty scheiße due to n = 100 (too low like alexlow)
      */
-    Vector<double> eigenVector10(n);
-    double eigenValue10;
+    std::cout << "----- Aufgabe 2: omega_10, n = 100 -----" << std::endl;
 
-    ComputeInverseIteration(K, M, u, 5e9, eigenVector10, eigenValue10);
+    analyticalOmega = c * 10 * M_PI / L;
 
-    eigenValue10 = std::abs(eigenValue10);
-    double omega10 = std::sqrt(eigenValue10);
-    double analyticalOmega10 = c * 10 * M_PI / L;
-    double error10 = std::abs(omega10 - analyticalOmega10) / analyticalOmega10 * 100.0;
+    ComputeInverseIteration(K, M, u, analyticalOmega * analyticalOmega * 0.99, eigenVector, eigenValue);
 
-    std::cout << "Tenth eigenfrequency: " << omega10 << " rad/s" << std::endl;
-    std::cout << "Analytical value: " << analyticalOmega10 << " rad/s" << std::endl;
-    std::cout << "Relative error: " << error10 << "%" << std::endl;
+    omega = std::sqrt(eigenValue);
+    error = std::abs(omega - analyticalOmega) / analyticalOmega * 100.0;
+
+    std::cout << "Target eigenfrequency: " << omega << " rad/s" << std::endl;
+    std::cout << "Analytical value: " << analyticalOmega << " rad/s" << std::endl;
+    std::cout << "Relative error: " << error << "%" << std::endl;
     std::cout << std::endl;
 
-    // Save eigenmode to file
-    std::ofstream out2("eigenmode10.csv");
-    out2 << "x,u" << std::endl;
-    for (int i = 0; i < n; ++i)
-    {
-        double x = (i + 1) * h;
-        out2 << x << "," << eigenVector10(i) << std::endl;
-    }
-    out2.close();
+    WriteModeToCSV(10, eigenVector, h);
 
     /*
      *   Aufgabe 2 - omega5
      *   Here we ask ourself what the true meaning of life is
      */
-    const int iterMax = 1e9;
+    // Iteration params
+    const int iterMax = 1e6;
     double targetError = 0.1;
-    double errorIter = 100.0;
-    int nIter = 100;
-    while (errorIter > targetError && nIter <= iterMax)
+    int nIter = 10;
+    int iterStep = 10;
+
+    // reset error
+    error = 100.0;
+
+    std::cout << "----- Aufgabe 2: n = ? -----" << std::endl;
+    while (nIter <= iterMax)
     {
-        std::cout << "Trying for n = " << nIter << "\t Please send help." << std::endl;
         int neIter = nIter + 1;    // number of elements
         double hIter = L / neIter; // mesh fineness
 
-        // Create tridiagonal matrix
+        // Create and fill the tridiagonal matrix
         TridiagSparseMatrix<double> KIter(nIter);
+        FillTridiagSparseMatrix(KIter, 2.0 * pow(c, 2) / hIter, -pow(c, 2) / hIter);
         TridiagSparseMatrix<double> MIter(nIter);
-
-        // Fill the tridiagonal matrices according to equation (5) and (6)
-        for (int i = 0; i < nIter; ++i)
-        {
-            KIter.Set(i, i, 2.0 * pow(c, 2) / hIter);
-            MIter.Set(i, i, 4.0 * hIter / 6.0);
-
-            if (i > 0)
-            {
-                KIter.Set(i, i - 1, -pow(c, 2) / hIter);
-                MIter.Set(i, i - 1, hIter / 6.0);
-            }
-
-            if (i < nIter - 1)
-            {
-                KIter.Set(i, i + 1, -pow(c, 2) / hIter);
-                MIter.Set(i, i + 1, hIter / 6.0);
-            }
-        }
+        FillTridiagSparseMatrix(MIter, 4.0 * hIter / 6.0, hIter / 6.0);
 
         Vector<double> uIter(nIter);
         for (int i = 0; i < nIter; ++i)
@@ -258,17 +294,28 @@ int main()
             uIter(i) = sin(nIter * M_PI * xi / L);
         }
 
-        Vector<double> eigenVectorIter(nIter);
-        double eigenValueIter;
-        double analyticalOmegaIter = c * 5 * M_PI / L;
-        ComputeInverseIteration(KIter, MIter, uIter, pow(analyticalOmegaIter, 2) * 0.95, eigenVectorIter, eigenValueIter);
+        // Vector<double> eigenVectorIter(nIter);
+        // double eigenValueIter;
+        eigenVector = Vector<double>(nIter);
 
-        eigenValueIter = std::abs(eigenValueIter);
-        double omegaIter = std::sqrt(eigenValueIter);
-        errorIter = std::abs(omegaIter - analyticalOmegaIter) / analyticalOmegaIter * 100.0;
-        nIter *= 10;
+        analyticalOmega = c * 5 * M_PI / L;
+
+        ComputeInverseIteration(KIter, MIter, uIter, analyticalOmega * analyticalOmega * 0.99, eigenVector, eigenValue);
+        omega = std::sqrt(eigenValue);
+        error = std::abs(omega - analyticalOmega) / analyticalOmega * 100.0;
+
+        std::cout << "n = " << nIter << ": \n\tanalytical omega = " << analyticalOmega << "\n\tapproximated omega = " << omega << "\n\terror = " << error << "%\n"
+                << std::endl;
+
+        
+        if(error <= targetError){
+            break;
+        }
+
+        nIter += iterStep;
     }
-    std::cout << "Number of unknowns needed for 0.1\% accuracy for 5th eigenmode: " << nIter << std::endl;
+    std::cout << "Number of unknowns needed for < 0.1\% rel. error for 5th eigenmode: " << nIter << std::endl;
+    WriteModeToCSV(5, eigenVector, L / (nIter + 1));
 
     return 0;
 }
