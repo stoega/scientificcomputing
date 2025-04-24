@@ -79,7 +79,26 @@
         "codecvt": "cpp",
         "source_location": "cpp",
         "future": "cpp",
-        "stdfloat": "cpp"
+        "stdfloat": "cpp",
+        "alignedvector3": "cpp",
+        "ranges": "cpp",
+        "core": "cpp",
+        "superlusupport": "cpp",
+        "*.evaluator": "cpp",
+        "*.traits": "cpp",
+        "adolcforward": "cpp",
+        "autodiff": "cpp",
+        "bvh": "cpp",
+        "eulerangles": "cpp",
+        "fft": "cpp",
+        "kroneckerproduct": "cpp",
+        "mprealsupport": "cpp",
+        "nnls": "cpp",
+        "numericaldiff": "cpp",
+        "openglsupport": "cpp",
+        "specialfunctions": "cpp",
+        "splines": "cpp",
+        "eigenvalues": "cpp"
     },
     "C_Cpp.errorSquiggles": "enabled"
 }

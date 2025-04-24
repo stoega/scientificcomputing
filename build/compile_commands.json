@@ -1,8 +1,26 @@
 [
 {
   "directory": "/home/Shrek/Uni/24W/Wissenschaftliches_Rechnen/build",
-  "command": "/usr/bin/clang++ -I/home/Shrek/Uni/24W/Wissenschaftliches_Rechnen/Ex4/include -O3 -DNDEBUG -std=gnu++20 -o CMakeFiles/Aufgabe1.dir/Aufgabe1.cpp.o -c /home/Shrek/Uni/24W/Wissenschaftliches_Rechnen/Ex4/Aufgabe1.cpp",
+  "command": "/usr/bin/g++ -I/home/Shrek/Uni/24W/Wissenschaftliches_Rechnen/Ex4 -I/home/Shrek/Uni/24W/Wissenschaftliches_Rechnen/Ex4/../eigen -g -std=gnu++20 -o CMakeFiles/A1.dir/Aufgabe1.cpp.o -c /home/Shrek/Uni/24W/Wissenschaftliches_Rechnen/Ex4/Aufgabe1.cpp",
   "file": "/home/Shrek/Uni/24W/Wissenschaftliches_Rechnen/Ex4/Aufgabe1.cpp",
-  "output": "CMakeFiles/Aufgabe1.dir/Aufgabe1.cpp.o"
+  "output": "CMakeFiles/A1.dir/Aufgabe1.cpp.o"
+},
+{
+  "directory": "/home/Shrek/Uni/24W/Wissenschaftliches_Rechnen/build",
+  "command": "/usr/bin/g++ -I/home/Shrek/Uni/24W/Wissenschaftliches_Rechnen/Ex4 -I/home/Shrek/Uni/24W/Wissenschaftliches_Rechnen/Ex4/../eigen -g -std=gnu++20 -o CMakeFiles/A2.dir/Aufgabe2.cpp.o -c /home/Shrek/Uni/24W/Wissenschaftliches_Rechnen/Ex4/Aufgabe2.cpp",
+  "file": "/home/Shrek/Uni/24W/Wissenschaftliches_Rechnen/Ex4/Aufgabe2.cpp",
+  "output": "CMakeFiles/A2.dir/Aufgabe2.cpp.o"
+},
+{
+  "directory": "/home/Shrek/Uni/24W/Wissenschaftliches_Rechnen/build",
+  "command": "/usr/bin/g++ -I/home/Shrek/Uni/24W/Wissenschaftliches_Rechnen/Ex4 -I/home/Shrek/Uni/24W/Wissenschaftliches_Rechnen/Ex4/../eigen -g -std=gnu++20 -o CMakeFiles/A2_eigen.dir/Aufgabe2_eigen.cpp.o -c /home/Shrek/Uni/24W/Wissenschaftliches_Rechnen/Ex4/Aufgabe2_eigen.cpp",
+  "file": "/home/Shrek/Uni/24W/Wissenschaftliches_Rechnen/Ex4/Aufgabe2_eigen.cpp",
+  "output": "CMakeFiles/A2_eigen.dir/Aufgabe2_eigen.cpp.o"
+},
+{
+  "directory": "/home/Shrek/Uni/24W/Wissenschaftliches_Rechnen/build",
+  "command": "/usr/bin/g++ -I/home/Shrek/Uni/24W/Wissenschaftliches_Rechnen/Ex4 -I/home/Shrek/Uni/24W/Wissenschaftliches_Rechnen/Ex4/../eigen -g -std=gnu++20 -o CMakeFiles/LAPACKExample.dir/lapack_test.cpp.o -c /home/Shrek/Uni/24W/Wissenschaftliches_Rechnen/Ex4/lapack_test.cpp",
+  "file": "/home/Shrek/Uni/24W/Wissenschaftliches_Rechnen/Ex4/lapack_test.cpp",
+  "output": "CMakeFiles/LAPACKExample.dir/lapack_test.cpp.o"
 }
 ]

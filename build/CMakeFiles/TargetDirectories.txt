@@ -1,3 +1,6 @@
-/home/Shrek/Uni/24W/Wissenschaftliches_Rechnen/build/CMakeFiles/Aufgabe1.dir
+/home/Shrek/Uni/24W/Wissenschaftliches_Rechnen/build/CMakeFiles/A1.dir
+/home/Shrek/Uni/24W/Wissenschaftliches_Rechnen/build/CMakeFiles/A2.dir
+/home/Shrek/Uni/24W/Wissenschaftliches_Rechnen/build/CMakeFiles/A2_eigen.dir
+/home/Shrek/Uni/24W/Wissenschaftliches_Rechnen/build/CMakeFiles/LAPACKExample.dir
 /home/Shrek/Uni/24W/Wissenschaftliches_Rechnen/build/CMakeFiles/edit_cache.dir
 /home/Shrek/Uni/24W/Wissenschaftliches_Rechnen/build/CMakeFiles/rebuild_cache.dir

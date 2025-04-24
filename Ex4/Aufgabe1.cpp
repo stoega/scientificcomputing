@@ -208,9 +208,9 @@ int main()
     // Create tridiagonal matrix
     // Create and fill the tridiagonal matrices according to equation (5) and (6)
     TridiagSparseMatrix<double> K(n);
-    K.Print(std::cout);
+    // K.Print(std::cout);
     FillTridiagSparseMatrix(K, 2.0 * pow(c, 2) / h, -pow(c, 2) / h);
-    K.Print(std::cout);
+    // K.Print(std::cout);
 
     TridiagSparseMatrix<double> M(n);
     FillTridiagSparseMatrix(M, 4.0 * h / 6.0, h / 6.0);

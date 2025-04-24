@@ -6,43 +6,34 @@ project(Ex4)
 
 # Specify the C++ standard
 set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-# Add include directories (if you have any custom headers)
-include_directories(include)
-
-# Add your source files
-set(SOURCES_A1
-    SCTridiagLUSolver.h  
-    Aufgabe1.cpp 
-)
+include_directories(${CMAKE_SOURCE_DIR})
+include_directories(../eigen/)
 
 # Create an executable from your sources
-add_executable(Aufgabe1 ${SOURCES_A1})
+add_executable(A1 Aufgabe1.cpp)
 
-# # Add your source files
-# set(SOURCES_A2
-#     SCGaussSeidelSolver.h
-#     TridiagGSSolverTest.cpp    
-# )
+# set the project name
+project(Aufgabe2)
 
-# # Create an executable from your sources
-# add_executable(TridiagGSSolverTest ${SOURCES_A2})
+add_executable(A2 Aufgabe2.cpp)
 
-# # Add your source files
-# set(SOURCES_A3_T1
-#     SCGaussSeidelSolver.h
-#     ApplicationExample_Task1.cpp    
-# )
+# Find LAPACK
+find_package(LAPACK REQUIRED)
 
-# # Create an executable from your sources
-# add_executable(ApplicationExample ${SOURCES_A3_T1})
+# Link LAPACK to the executable
+target_link_libraries(A2 ${LAPACK_LIBRARIES})
+# target_include_directories(A2 PUBLIC ${EIGENLIB})
 
-# # Add your source files
-# set(SOURCES_A3_T2
-#     SCGaussSeidelSolver.h
-#     SCTridiagLUSolver.h
-#     ApplicationExample_Task2.cpp    
-# )
+# set the project name
+project(Aufgabe2Eigen)
+include_directories(${CMAKE_SOURCE_DIR})
+include_directories(../eigen/)
+# add the executable
+add_executable(A2_eigen Aufgabe2_eigen.cpp)
+target_include_directories(A2_eigen PUBLIC ${EIGENLIB})
 
-# # Create an executable from your sources
-# add_executable(ApplicationExampleTiming ${SOURCES_A3_T2})
+# Add the executable
+add_executable(LAPACKExample lapack_test.cpp)
+target_link_libraries(LAPACKExample ${LAPACK_LIBRARIES})
