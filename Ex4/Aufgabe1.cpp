@@ -165,12 +165,12 @@ void FillTridiagSparseMatrix(TridiagSparseMatrix<T> &A, T diagonalValue, T offdi
 }
 
 /**
-* Writes a vector to a .csv file
-*
-* @param modeNr Number of eigenmode
-* @param vec The vector to write
-* @param h Mesh fineness of vector
-*/
+ * Writes a vector to a .csv file
+ *
+ * @param modeNr Number of eigenmode
+ * @param vec The vector to write
+ * @param h Mesh fineness of vector
+ */
 void WriteModeToCSV(int modeNr, Vector<double> &vec, double h)
 {
     std::string fullFileName = "Ex4_A1_w" + std::to_string(modeNr) + ".csv";
@@ -204,6 +204,7 @@ int main()
     double omega = 0.0;
     double analyticalOmega = 0.0;
     double error = 0.0;
+    double shift = 0.0;
 
     // Create tridiagonal matrix
     // Create and fill the tridiagonal matrices according to equation (5) and (6)
@@ -227,9 +228,10 @@ int main()
     /*
      *   Aufgabe 1
      */
-    std::cout << "----- Aufgabe 1: omega_1, n = 100 -----" << std::endl;
+    std::cout << "----- Aufgabe 1, Frage 1: omega_1, n = 100 -----" << std::endl;
 
-    ComputeInverseIteration(K, M, u, 0, eigenVector, eigenValue);
+    shift = 0;
+    ComputeInverseIteration(K, M, u, shift, eigenVector, eigenValue);
 
     omega = std::sqrt(eigenValue);
     analyticalOmega = c * M_PI / L;
@@ -244,13 +246,12 @@ int main()
 
     /*
      *   Aufgabe 2 - omega10
-     *   Fazit for Alex: approximation is pretty scheiße due to n = 100 (too low like alexlow)
      */
-    std::cout << "----- Aufgabe 2: omega_10, n = 100 -----" << std::endl;
+    std::cout << "----- Aufgabe 1, Frage 2: omega_10, n = 100 -----" << std::endl;
 
     analyticalOmega = c * 10 * M_PI / L;
-
-    ComputeInverseIteration(K, M, u, analyticalOmega * analyticalOmega * 0.99, eigenVector, eigenValue);
+    shift = analyticalOmega * analyticalOmega * 0.99;
+    ComputeInverseIteration(K, M, u, shift, eigenVector, eigenValue);
 
     omega = std::sqrt(eigenValue);
     error = std::abs(omega - analyticalOmega) / analyticalOmega * 100.0;
@@ -264,7 +265,6 @@ int main()
 
     /*
      *   Aufgabe 2 - omega5
-     *   Here we ask ourself what the true meaning of life is
      */
     // Iteration params
     const int iterMax = 1e6;
@@ -275,7 +275,7 @@ int main()
     // reset error
     error = 100.0;
 
-    std::cout << "----- Aufgabe 2: n = ? -----" << std::endl;
+    std::cout << "----- Aufgabe 1, Frage 2: omega_5, n = ? -----" << std::endl;
     while (nIter <= iterMax)
     {
         int neIter = nIter + 1;    // number of elements
@@ -299,16 +299,18 @@ int main()
         eigenVector = Vector<double>(nIter);
 
         analyticalOmega = c * 5 * M_PI / L;
+        shift = analyticalOmega * analyticalOmega * 0.99;
 
-        ComputeInverseIteration(KIter, MIter, uIter, analyticalOmega * analyticalOmega * 0.99, eigenVector, eigenValue);
+        ComputeInverseIteration(KIter, MIter, uIter, shift, eigenVector, eigenValue);
+
         omega = std::sqrt(eigenValue);
         error = std::abs(omega - analyticalOmega) / analyticalOmega * 100.0;
 
         std::cout << "n = " << nIter << ": \n\tanalytical omega = " << analyticalOmega << "\n\tapproximated omega = " << omega << "\n\terror = " << error << "%\n"
-                << std::endl;
+                  << std::endl;
 
-        
-        if(error <= targetError){
+        if (error <= targetError)
+        {
             break;
         }
 

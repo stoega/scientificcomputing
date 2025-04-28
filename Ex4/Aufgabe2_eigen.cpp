@@ -11,7 +11,6 @@
 using namespace SC;
 using namespace std;
 
-
 template <typename T>
 /**
  * Fills a matrix of type SC::TridiagSparseMatrix with proviede diagonal and offdiagonal values
@@ -42,12 +41,12 @@ void FillTridiagSparseMatrix(TridiagSparseMatrix<T> &A, T diagonalValue, T offdi
 }
 
 /**
-* Writes a vector to a .csv file
-*
-* @param modeNr Number of eigenmode
-* @param vec The vector to write
-* @param h Mesh fineness of vector
-*/
+ * Writes a vector to a .csv file
+ *
+ * @param modeNr Number of eigenmode
+ * @param vec The vector to write
+ * @param h Mesh fineness of vector
+ */
 void WriteModeToCSV(int modeNr, Vector<double> &vec, double h)
 {
     std::string fullFileName = "Ex4_A2_w" + std::to_string(modeNr) + ".csv";
@@ -62,9 +61,18 @@ void WriteModeToCSV(int modeNr, Vector<double> &vec, double h)
     out.close();
 }
 
+/**
+ * Computes the first m Eigenvalues and Eigenvectors using Accelerated Inverse Iteration using Rayleigh quotient
+ * K * v = lambda * M * v
+ * @param K Tridiagonal sparse matrix of the lhs
+ * @param M Tridiagonal sparse matrix of the rhs
+ * @param lambda Vector which stores/returns the m-Eigenvalues
+ * @param V Vector of arrays which stores/returns the Eigenvector of the corresponding Eigenvalue
+ */
 void modifiedInverseIterationNRayleigh(TridiagSparseMatrix<double> &K,
-                               TridiagSparseMatrix<double> &M, Vector<double> &lambda, Vector<double> *V)
+                                       TridiagSparseMatrix<double> &M, Vector<double> &lambda, Vector<double> *V)
 {
+    // This function is based on "InverseIterationNRayleigh" from waveequation_Eigen.cpp
     // dimensions
     int n = K.Height();
     int m = lambda.Size();
@@ -81,6 +89,7 @@ void modifiedInverseIterationNRayleigh(TridiagSparseMatrix<double> &K,
     }
 
     // init matrices & vectors
+    // alternative Vector<Vector<double>> could be used instead of plain Arrays
     Vector<double> *MV = new Vector<double>[m];
     Vector<double> *KV = new Vector<double>[m];
     Vector<double> *W = new Vector<double>[m];
@@ -105,19 +114,20 @@ void modifiedInverseIterationNRayleigh(TridiagSparseMatrix<double> &K,
         K.Apply(V[i], KV[i]);
     }
 
+    // init error parameters
     double error_init = m;
     Vector<double> error(m);
     error.SetAll(1.);
+
     int step = 0;
 
-    // set up eigenvalue problem
+    // Reduced 2m x 2m Matrices
     Eigen::MatrixXd Ms(2 * m, 2 * m), Ks(2 * m, 2 * m);
     Eigen::GeneralizedSelfAdjointEigenSolver<Eigen::MatrixXd> es;
     while (step < 100 && error.Norm() > 1e-8 * error_init)
     {
         step++;
 
-        
         for (int i = 0; i < m; i++)
         {
             // MV = M*V, KV = K*V
@@ -132,11 +142,12 @@ void modifiedInverseIterationNRayleigh(TridiagSparseMatrix<double> &K,
             // use residual w as error indicator
             error(i) = W[i].Norm();
 
-            // calc KW = K*W and MW = M*W
+            // KW = K*W, MW = M*W
             M.Apply(W[i], MW[i]);
             K.Apply(W[i], KW[i]);
         }
-            
+
+        // modify error_init on first iteration
         if (step == 1)
             error_init = error.Norm();
 
@@ -172,20 +183,13 @@ void modifiedInverseIterationNRayleigh(TridiagSparseMatrix<double> &K,
             }
         }
 
-        // save Vnew in V and normalize, store EV
+        // normalize Vnew and update V, store new Eigenvalue
         for (int i = 0; i < m; i++)
         {
             Vnew[i] *= (1. / Vnew[i].Norm());
             V[i] = Vnew[i];
             lambda(i) = lam_small(i);
         }
-        
-        // calc MV and KV and store lambda
-        // for (int i = 0; i < m; i++)
-        // {
-        //     M.Apply(V[i], MV[i]);
-        //     K.Apply(V[i], KV[i]);
-        // }
     }
 }
 
@@ -215,10 +219,10 @@ int main()
 
     modifiedInverseIterationNRayleigh(K, M, lambda, V);
 
-    for(int idx = 0; idx < m; idx++){
-        std::cout << "Eigenwert lambda = " << lambda(idx) << ":" << std::endl;
-        V[idx].Print(std::cout);
-        WriteModeToCSV(idx, V[idx], h);
+    for (int idx = 0; idx < m; idx++)
+    {
+        std::cout << "Eigenwert lambda_" << idx + 1 << " = " << lambda(idx) << std::endl;
+        WriteModeToCSV(idx + 1, V[idx], h);
     }
 
     return 0;
