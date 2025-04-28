@@ -73,6 +73,11 @@ void modifiedInverseIterationNRayleigh(TridiagSparseMatrix<double> &K,
                                        TridiagSparseMatrix<double> &M, Vector<double> &lambda, Vector<double> *V)
 {
     // This function is based on "InverseIterationNRayleigh" from waveequation_Eigen.cpp
+
+    // Convergence parameters
+    const int MAX_ITERATIONS = 100;
+    const double TOLERANCE = 1e-8;
+
     // dimensions
     int n = K.Height();
     int m = lambda.Size();
@@ -96,6 +101,7 @@ void modifiedInverseIterationNRayleigh(TridiagSparseMatrix<double> &K,
     Vector<double> *KW = new Vector<double>[m];
     Vector<double> *MW = new Vector<double>[m];
     Vector<double> *Vnew = new Vector<double>[m];
+
     for (int i = 0; i < m; i++)
     {
         MV[i].SetSize(n);
@@ -107,14 +113,7 @@ void modifiedInverseIterationNRayleigh(TridiagSparseMatrix<double> &K,
         Vnew[i].SetAll(0.);
     }
 
-    // calc MV and KV
-    for (int i = 0; i < m; i++)
-    {
-        M.Apply(V[i], MV[i]);
-        K.Apply(V[i], KV[i]);
-    }
-
-    // init error parameters
+    // Error tracking
     double error_init = m;
     Vector<double> error(m);
     error.SetAll(1.);
@@ -124,10 +123,11 @@ void modifiedInverseIterationNRayleigh(TridiagSparseMatrix<double> &K,
     // Reduced 2m x 2m Matrices
     Eigen::MatrixXd Ms(2 * m, 2 * m), Ks(2 * m, 2 * m);
     Eigen::GeneralizedSelfAdjointEigenSolver<Eigen::MatrixXd> es;
-    while (step < 100 && error.Norm() > 1e-8 * error_init)
+    while (step < MAX_ITERATIONS && error.Norm() > TOLERANCE * error_init)
     {
         step++;
 
+        // Compute MVi and KVi for all basis vectors
         for (int i = 0; i < m; i++)
         {
             // MV = M*V, KV = K*V
@@ -142,16 +142,16 @@ void modifiedInverseIterationNRayleigh(TridiagSparseMatrix<double> &K,
             // use residual w as error indicator
             error(i) = W[i].Norm();
 
-            // KW = K*W, MW = M*W
+            // KW = K*W, MW = M*W for subspace projection
             M.Apply(W[i], MW[i]);
             K.Apply(W[i], KW[i]);
         }
 
-        // modify error_init on first iteration
+        // Initialize error norm on first iteration
         if (step == 1)
             error_init = error.Norm();
 
-        // calc 2 m x 2 m matrices Ks and Ms
+        // Setup reduced 2m x 2m eigenvalue Problem
         for (int i = 0; i < m; i++)
             for (int j = 0; j < m; j++)
             {
@@ -166,15 +166,18 @@ void modifiedInverseIterationNRayleigh(TridiagSparseMatrix<double> &K,
                 Ms(m + i, m + j) = InnerProduct(W[i], MW[j]);
             }
 
-        // solve eigenvalue problem
+        // Solve the reduced eigenvalue problem using EIGEN
         es.compute(Ks, Ms);
         const auto &lam_small = es.eigenvalues();
         const auto &y_small = es.eigenvectors();
 
         // compute Vnew based on y_small and V & W
-        for (int s = 0; s < m; s++)
+        for (int s = 0; s < m; s++) // s = spalte
         {
-            for (int z = 0; z < n; z++)
+            // Reset new vector
+            Vnew[s].SetAll(0.0);
+
+            for (int z = 0; z < n; z++) // z = zeile
             {
                 for (int i = 0; i < m; i++)
                 {
@@ -222,6 +225,7 @@ int main()
     for (int idx = 0; idx < m; idx++)
     {
         std::cout << "Eigenwert lambda_" << idx + 1 << " = " << lambda(idx) << std::endl;
+        std::cout << "Eigenfrequenz w_" << idx + 1 << " = " << sqrt(lambda(idx)) << std::endl;
         WriteModeToCSV(idx + 1, V[idx], h);
     }
 
