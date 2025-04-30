@@ -217,9 +217,12 @@ void modifiedInverseIterationNRayleigh(TridiagSparseMatrix<double> &K,
                     Vnew[s](z) += V[i](z) * Ks(i, s) + W[i](z) * Ks(i + m, s);
                 }
             }
+            lambda(s) = w(s);
+        }
 
-            // Orthogonalize against previous vectors (Gram-Schmidt)
-            // Needed to make new vector linear independent from previous ones
+        // Orthogonalize against previous vectors (Gram-Schmidt)
+        // Needed to make new vector linear independent from previous ones
+        for(int s = 0; s < m; s++){
             for (int j = 0; j < s; j++)
             {
                 double proj = InnerProduct(Vnew[s], Vnew[j]);
@@ -236,7 +239,6 @@ void modifiedInverseIterationNRayleigh(TridiagSparseMatrix<double> &K,
             
             Vnew[s] *= 1. / norm;
             V[s] = Vnew[s];
-            lambda(s) = w(s);
         }
     }
 }
