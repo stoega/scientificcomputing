@@ -269,9 +269,9 @@ int main()
 
     for (int idx = 0; idx < m; idx++)
     {
-        // std::cout << "Eigenwert lambda_" << idx + 1 << " = " << lambda(idx) << std::endl;
-        // std::cout << "Eigenfrequenz w_" << idx + 1 << " = " << sqrt(lambda(idx)) << std::endl;
-        // WriteModeToCSV(idx + 1, V[idx], h);
+        std::cout << "Eigenwert lambda_" << idx + 1 << " = " << lambda(idx) << std::endl;
+        std::cout << "Eigenfrequenz w_" << idx + 1 << " = " << sqrt(lambda(idx)) << std::endl;
+        WriteModeToCSV(idx + 1, V[idx], h);
         // V[idx].Print(std::cout);
         // std::cout << std::endl;
     }
