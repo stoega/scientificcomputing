@@ -49,7 +49,7 @@ void FillTridiagSparseMatrix(TridiagSparseMatrix<T> &A, T diagonalValue, T offdi
  */
 void WriteModeToCSV(int modeNr, Vector<double> &vec, double h)
 {
-    std::string fullFileName = "Ex4_A2_w" + std::to_string(modeNr) + ".csv";
+    std::string fullFileName = "Ex4_A2_eigen_w" + std::to_string(modeNr) + ".csv";
     size_t n = vec.Size();
     std::ofstream out(fullFileName);
     out << "x,u" << std::endl;
@@ -227,6 +227,8 @@ int main()
         std::cout << "Eigenwert lambda_" << idx + 1 << " = " << lambda(idx) << std::endl;
         std::cout << "Eigenfrequenz w_" << idx + 1 << " = " << sqrt(lambda(idx)) << std::endl;
         WriteModeToCSV(idx + 1, V[idx], h);
+        // V[idx].Print(std::cout);
+        // std::cout << std::endl;
     }
 
     return 0;

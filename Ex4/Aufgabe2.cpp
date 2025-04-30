@@ -193,14 +193,14 @@ void modifiedInverseIterationNRayleigh(TridiagSparseMatrix<double> &K,
         dsygv_(&itype, &jobz, &uplo, &N, &Ks(0, 0), &lda, &Ms(0, 0), &ldb, &w(0), &work(0), &lwork, &info);
 
 #ifndef NDEBUG
-        std::cout << "N: " << N << std::endl;
-        std::cout << "Fehler: " << info << std::endl;
-        std::cout << "Eigenwerte: " << w << std::endl;
+        std::cout << "Iteration: " << step << ", Error: " << error.Norm() << std::endl;
+        std::cout << "Lapack error: " << info << std::endl;
+        std::cout << "Eigenvalues: " << w << std::endl;
 #endif
 
-        if (info != 0)
-        {
-            cout << "Fehler bei Lapack!" << endl;
+        // Check for LAPACK errors
+        if (info != 0) {
+            std::cerr << "LAPACK error: " << info << std::endl;
             break;
         }
 
@@ -233,6 +233,7 @@ void modifiedInverseIterationNRayleigh(TridiagSparseMatrix<double> &K,
                 std::cerr << "Numerically linearly dependent vector in step " << step << std::endl;
                 exit(1);
             }
+            
             Vnew[s] *= 1. / norm;
             V[s] = Vnew[s];
             lambda(s) = w(s);
@@ -268,9 +269,11 @@ int main()
 
     for (int idx = 0; idx < m; idx++)
     {
-        std::cout << "Eigenwert lambda_" << idx + 1 << " = " << lambda(idx) << std::endl;
-        std::cout << "Eigenfrequenz w_" << idx + 1 << " = " << sqrt(lambda(idx)) << std::endl;
-        WriteModeToCSV(idx + 1, V[idx], h);
+        // std::cout << "Eigenwert lambda_" << idx + 1 << " = " << lambda(idx) << std::endl;
+        // std::cout << "Eigenfrequenz w_" << idx + 1 << " = " << sqrt(lambda(idx)) << std::endl;
+        // WriteModeToCSV(idx + 1, V[idx], h);
+        // V[idx].Print(std::cout);
+        // std::cout << std::endl;
     }
 
     return 0;
